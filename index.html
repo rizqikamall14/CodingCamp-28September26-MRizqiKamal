@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple expense and budget visualizer.">
+    <title>Expense & Budget Visualizer</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <main class="app-shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">PERSONAL FINANCE</p>
+                <h1>Expense Tracker</h1>
+                <p class="subtitle">Keep an eye on your daily spending.</p>
+            </div>
+
+            <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </header>
+
+        <section class="balance-card">
+            <div>
+                <p>Total Spending</p>
+                <h2 id="totalBalance">Rp 0</h2>
+            </div>
+
+            <div class="balance-limit">
+                <span>Monthly limit</span>
+                <strong id="limitDisplay">Rp 0</strong>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+            <section class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">NEW ENTRY</p>
+                        <h2>Add transaction</h2>
+                    </div>
+                </div>
+
+                <form id="transactionForm" novalidate>
+                    <div class="field">
+                        <label for="itemName">Item name</label>
+                        <input id="itemName" type="text" placeholder="e.g. Lunch" autocomplete="off">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="amount">Amount</label>
+                            <input id="amount" type="number" min="1" step="1" placeholder="25000">
+                        </div>
+
+                        <div class="field">
+                            <label for="category">Category</label>
+                            <select id="category">
+                                <option value="">Choose category</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Fun">Fun</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="primary-button" type="submit">Add transaction</button>
+                    <p id="formError" class="form-message" role="alert"></p>
+                </form>
+            </section>
+
+            <section class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">BUDGET</p>
+                        <h2>Spending limit</h2>
+                    </div>
+                </div>
+
+                <form id="limitForm" class="inline-form">
+                    <input id="limitInput" type="number" min="0" step="1" placeholder="Monthly limit">
+                    <button type="submit">Save</button>
+                </form>
+
+                <p id="limitWarning" class="warning hidden" role="status">
+                    You have gone over your spending limit.
+                </p>
+
+                <div class="mini-summary">
+                    <div>
+                        <span>Selected month</span>
+                        <strong id="monthlyTotal">Rp 0</strong>
+                    </div>
+                    <div>
+                        <span>Transactions</span>
+                        <strong id="monthlyTransactions">0</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="card">
+            <div class="section-heading section-heading-row">
+                <div>
+                    <p class="section-label">HISTORY</p>
+                    <h2>Transactions</h2>
+                </div>
+
+                <select id="sortSelect" class="small-select" aria-label="Sort transactions">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="highest">Highest amount</option>
+                    <option value="lowest">Lowest amount</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+
+            <div id="transactionList" class="transaction-list"></div>
+        </section>
+
+        <div class="dashboard-grid">
+            <section class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">CATEGORIES</p>
+                        <h2>Custom categories</h2>
+                    </div>
+                </div>
+
+                <form id="categoryForm" class="inline-form">
+                    <input id="customCategory" type="text" maxlength="30" placeholder="e.g. Shopping">
+                    <button type="submit">Add</button>
+                </form>
+
+                <div id="categoryList" class="category-list"></div>
+            </section>
+
+            <section class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">MONTHLY VIEW</p>
+                        <h2>Summary</h2>
+                    </div>
+                </div>
+
+                <select id="monthSelect" class="month-select" aria-label="Choose month"></select>
+
+                <div class="month-summary">
+                    <div>
+                        <span>Total</span>
+                        <strong id="summaryTotal">Rp 0</strong>
+                    </div>
+                    <div>
+                        <span>Entries</span>
+                        <strong id="summaryEntries">0</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="card chart-card">
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">OVERVIEW</p>
+                    <h2>Spending distribution</h2>
+                </div>
+            </div>
+
+            <div class="chart-wrap">
+                <canvas id="expenseChart"></canvas>
+                <p id="chartEmpty" class="chart-empty">Add a transaction to see the chart.</p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Expense & Budget Visualizer</p>
+        </footer>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
